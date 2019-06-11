@@ -3,11 +3,11 @@ const express = require('express');
 //intializing the express app.
 const app = express();
 const route = require('../Example/routes/router');
-//body-parser is a package used to handel json request.
+//body-parser is a package used to handle json request.
 var bodyParser = require('body-parser');
 // tell the app we want to use body-parser json object.
 app.use(bodyParser.json());
-// {extende: true} means we can parse a nested json object , if{extends : false} then we can parse a string or arrays.
+// {extended: true} means we can parse a nested json object , if{extends : false} then we can parse a string or arrays.
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var authController = require('./auth/authcontroller');

@@ -11,7 +11,7 @@ con.connect(function (err) {
     let create = `create table datadb(
         Name VARCHAR(255),
         Email VARCHAR(255),
-        MobileNo INT,
+        MobileNo BIGINT,
         Age INT,
         Address VARCHAR(255),
         Password VARCHAR(255)

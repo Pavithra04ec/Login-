@@ -21,6 +21,7 @@ export default new Vuex.Store({
                 })
         },
         submitProduct: function ({ commit }, {EmpId,Name,Role,PreOrganization}) {
+            //this.$router.push(`/profile/${payload.Email}`);
             let payload ={
                 EmpId:EmpId,
                 Name:Name,
@@ -30,6 +31,7 @@ export default new Vuex.Store({
             axios
                 .post('http://localhost:5000/api/post', [payload])
                 .then(res => commit('setNewToState',{add:res.data} ))
+                
                 
         },
     },

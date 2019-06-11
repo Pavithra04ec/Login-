@@ -4,13 +4,22 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     >
-
+    <b-container v-show="DashBoard">
+      <b-button
+        variant="secondary"
+        style="float:center;"
+        @click="DashBoard=false,showLogin=true"
+      >Dashboard</b-button>
+    </b-container>
     <b-container fluid class="w-50.5" v-show="showLogin">
+      <div >
       <b-row class="my-1">
-        <b-col sm="4">
-          <label for="input-default" description="We'll never share your email.">Email:</label>
+        <b-col lg="4" class="pb-2">
+          <label for="input-default" description="We'll never share your email.">
+            <strong>Email:</strong>
+          </label>
         </b-col>
-        <b-col sm="4">
+         <b-col lg="2" class="pb-2">
           <b-form-input
             id="Email"
             v-validate="'required'"
@@ -23,9 +32,12 @@
           <span>{{ errors.first('Email') }}</span>
         </b-col>
       </b-row>
-      <b-row class="my-1">
+      </div>
+      <!-- <b-row class="my-1">
         <b-col sm="4">
-          <label for="input-default">Password:</label>
+          <label for="input-default">
+            <strong>Password:</strong>
+          </label>
         </b-col>
         <b-col sm="4">
           <b-form-input
@@ -41,11 +53,46 @@
           <span>{{ errors.first('Password') }}</span>
         </b-col>
         <b-col sm="0">
-          <b-button @click="showPassword()" variant="info">show</b-button>
+          <b-button @click="showPassword()" variant="info">
+            <span class="fa fa-eye"></span>
+          </b-button>
         </b-col>
-      </b-row>
-      <b-button variant="success" @click="loginData()" style="float:center;">LogIn</b-button>
-      <b-button variant="warning" style="float:center;" @click="forgot()">Forgot Password</b-button>
+      </b-row> -->
+      <div class="text-center">
+          <b-row class="my-1">
+              <b-col lg="4" class="pb-2" >
+                <label for="input-default">
+                  <strong>Password:</strong>
+                </label>
+              </b-col>
+            <b-col lg="4" class="pb-2" >
+              <b-input-group>
+               <b-input-group-prepend>
+              <b-form-input
+                :type="'password'"
+                id="Password"
+                v-validate="'required'"
+                ref="Password"
+                v-model="item.Password"
+                name="Password"
+                required
+                placeholder="Enter your Password"
+              ></b-form-input>
+              <b-input-group-append>
+                <b-button variant="info"  @click="showPassword()">
+                  <span class="fa fa-eye"></span>
+                </b-button>
+              </b-input-group-append>
+              </b-input-group-prepend>
+              </b-input-group>
+            </b-col>
+             <b-col sm="10">
+               <span>{{ errors.first('Password') }}</span>
+               </b-col>
+          </b-row>
+          </div>
+      <b-button variant="success" @click="loginData()" style="float:center;" >LogIn</b-button>
+      <b-button variant="warning"  @click="forgot()" style="float:center;">Forgot Password</b-button>
       <br>
       <br>
       <b-button v-b-modal.modal-scoped variant="primary" style="float:center;">New Register</b-button>
@@ -76,7 +123,7 @@
         </b-col>
         <b-col sm="4" v-show="passShow">
           <b-form-input
-          :type="'password'"
+            :type="'password'"
             v-validate="'required'"
             v-model="item.Password"
             name="Password"
@@ -118,20 +165,20 @@
         <template slot="modal-footer">
           <!-- <template> -->
           <b-container fluid class="w-50.5">
-             <b-row class="my-1">
+            <b-row class="my-1">
               <b-col sm="4">
-                <label for="input-default">ManagerId:</label>
+                <label for="input-default">Id:</label>
               </b-col>
               <b-col sm="4">
                 <b-form-input
                   id="ManagerId"
                   v-validate="'numeric|required'"
-                  v-model="form.ManagerId"
-                  name="ManagerId"
+                  v-model="form.Id"
+                  name="Id"
                   required
-                  placeholder="Enter ManagerId"
+                  placeholder="Enter Id"
                 ></b-form-input>
-                <span>{{ errors.first('ManagerId') }}</span>
+                <span>{{ errors.first('Id') }}</span>
               </b-col>
             </b-row>
             <b-row class="my-1">
@@ -236,18 +283,18 @@
             </b-row>
             <b-row class="my-1">
               <b-col sm="4">
-                <label for="input-default">projectId:</label>
+                <label for="input-default">Role:</label>
               </b-col>
               <b-col sm="4">
                 <b-form-input
-                  id="projectId"
-                  v-validate="'numeric|required'"
-                  v-model="form.projectId"
-                  name="projectId"
+                  id="Role"
+                  v-validate="'alpha|required'"
+                  v-model="form.Role"
+                  name="Role"
                   required
-                  placeholder="projectId"
+                  placeholder="Role"
                 ></b-form-input>
-                <span>{{ errors.first('projectId') }}</span>
+                <span>{{ errors.first('Role') }}</span>
               </b-col>
             </b-row>
             <b-row>
@@ -279,7 +326,7 @@ export default {
         token: ""
       },
       form: {
-        ManagerId: "",
+        Id: "",
         Name: "",
         Email: "",
         MobileNo: "",
@@ -287,12 +334,13 @@ export default {
         Address: "",
         Password: "",
         ConfirmPassword: "",
-        projectId:""
+        Role: ""
       },
-      showLogin: true,
+      showLogin: false,
       showOtp: false,
       passShow: false,
-      loggedIn: false
+      loggedIn: false,
+      DashBoard: true
     };
   },
   mounted: function() {
@@ -319,14 +367,14 @@ export default {
         })
         .catch(() => {});
       const data = {
-        ManagerId: this.form.ManagerId,
+        Id: this.form.Id,
         Name: this.form.Name,
         Email: this.form.Email,
         MobileNo: this.form.MobileNo,
         Age: this.form.Age,
         Address: this.form.Address,
         Password: this.form.Password,
-        projectId: this.form.projectId
+        Role: this.form.Role
       };
       axios({
         method: "POST",
@@ -424,8 +472,6 @@ export default {
           .then(response => {
             console.log("result  :" + response);
             alert("Password updated successfully");
-            //this.$router.push(`/profile/${Email}`)
-            //this.$router.go(-1);
             this.$router.go();
           })
           .catch(e => {
@@ -463,9 +509,8 @@ export default {
           .then(response => {
             this.arr.push(response);
             console.log("result:" + response.data.token);
-            //const token = response.data.token;
             this.$store.commit("setToken", response.data.token);
-            alert("logged in successfully");
+            //alert("logged in successfully");
             this.$router.push(`/profile/${data.Email}`);
           })
           .catch(e => {
@@ -476,10 +521,9 @@ export default {
               alert(e.response.data.Error);
             }
           });
-        //);
       }
     },
-    show: function(){
+    show: function() {
       var x = document.getElementById("Password");
       if (x.type === "password") {
         x.type = "text";
@@ -487,36 +531,9 @@ export default {
         x.type = "password";
       }
     }
-        // login: function() {
-    //   this.$validator
-    //     .validateAll()
-    //     .then(result => {
-    //       if (!result) {
-    //         //alert("error Enter the All Details");
-    //         return;
-    //       }
-    //     })
-    //     .catch(() => {});
-    //   //console.log('login')
-    //   let payload = {
-    //     Email: this.item.Email,
-    //     Password: this.item.Password
-    //   };
-    //   //console.log(payload.Email,payload.Password)
-    //   this.$store.dispatch("loginData", payload);
-    //   console.log(this.$store.state.err === "");
-    //   if (this.$store.state.err === "") {
-    //     console.log("ifff");
-    //     alert("Unauthorized Access");
-    //   } else {
-    //     console.log("elseee");
-    //     this.$router.push(`/profile/${payload.Email}`);
-    //   }
-    // },
   }
 };
 </script>
 
-<style scoped>
-</style>
+
 

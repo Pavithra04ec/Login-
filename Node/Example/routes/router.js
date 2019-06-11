@@ -1,4 +1,4 @@
-//route are guide they tell the clientto go to which controller once a path/url is requested.
+//route are guide they tell the client to go to which controller once a path/url is requested.
 
 const express = require('express');
 //router object include methods for routing http request.

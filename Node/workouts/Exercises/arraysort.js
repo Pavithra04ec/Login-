@@ -13,3 +13,6 @@ while(i<person.length){
 }
 
 console.log(inArray);
+var msg = "Hello World!";
+var x= msg.split('').reverse().join('');
+console.log(x);

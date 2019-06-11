@@ -57,8 +57,7 @@ router.post('/register', (req, res) => {
             })
         }
     })
-})
-
+});
 router.post('/login', (req, res) => {
     db.Employee.findOne({ employeeEmailId: req.body.employeeEmailId }, function (err, user) {
         if (!user) return res.status(404).send('No user found.');
